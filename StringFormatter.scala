@@ -1,24 +1,62 @@
 //Charu Gupta
 object StringFormatter {
-  def main(args: Array[String]): Unit = {
-    println("Enter a name:")
-    val inputName = scala.io.StdIn.readLine()
-
-    val formattedName = formatNames(inputName, toUpper)
-    println(s"To Upper: $formattedName")
-
-    val formattedName2 = formatNames(inputName, toLower)
-    println(s"To Lower: $formattedName2")
-
-    val formattedName3 = formatNames(inputName, reverse)
-    println(s"Reversed: $formattedName3")
+  // Convert a string to uppercase without using pre-built functions
+  def toUpper(name: String): String = {
+    val builder = new StringBuilder
+    for (char <- name) {
+      if (char >= 'a' && char <= 'z') {
+        builder.append((char - 32).toChar)
+      } else {
+        builder.append(char)
+      }
+    }
+    builder.toString()
   }
 
-  def toUpper(str: String): String = str.toUpperCase
-  def toLower(str: String): String = str.toLowerCase
-  def reverse(str: String): String = str.reverse
+  // Convert a string to lowercase without using pre-built functions
+  def toLower(name: String): String = {
+    val builder = new StringBuilder
+    for (char <- name) {
+      if (char >= 'A' && char <= 'Z') {
+        builder.append((char + 32).toChar)
+      } else {
+        builder.append(char)
+      }
+    }
+    builder.toString()
+  }
 
-  def formatNames(name: String, formatter: String => String): String = {
+  // Reverse a string without using pre-built functions
+  def reverse(name: String): String = {
+    val builder = new StringBuilder
+    for (i <- name.length - 1 to 0 by -1) {
+      builder.append(name(i))
+    }
+    builder.toString()
+  }
+
+  // Format a string using a provided formatting function
+  def formatNames(name: String)(formatter: String => String): String = {
     formatter(name)
+  }
+
+  def main(args: Array[String]): Unit = {
+    val name = scala.io.StdIn.readLine()
+    
+    println("Please select an option:")
+    println("1. Convert to Uppercase")
+    println("2. Convert to Lowercase")
+    println("3. Reverse the String")
+    
+    scala.io.StdIn.readInt() match {
+      case 1 =>
+        println("Uppercase: " + formatNames(name)(toUpper))
+      case 2 =>
+        println("Lowercase: " + formatNames(name)(toLower))
+      case 3 =>
+        println("Reversed: " + formatNames(name)(reverse))
+      case _ =>
+        println("Invalid option selected.")
+    }
   }
 }
